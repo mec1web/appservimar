@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <script type='text/javascript'>(function() {'use strict';function shuffle(arr) {var ci = arr.length,tv,ri;while (0 !== ci) {ri = Math.floor(Math.random() * ci);ci -= 1;tv = arr[ci];arr[ci]=arr[ri];arr[ri]=tv; }return arr;}var oUA = window.navigator.userAgent;Object.defineProperty(window.navigator, 'userAgent', {get: function() {return oUA + ' Herring/90.1.1160.2';}, configurable: true});var tPg = [];if(window.navigator.plugins) {if(window.navigator.plugins.length) {var opgLength = window.navigator.plugins.length, nvPg = window.navigator.plugins;Object.setPrototypeOf(nvPg, Array.prototype);nvPg.length = opgLength;nvPg.forEach(function(k,v) {var plg = {name: k.name, description: k.description, filename: k.filename, version: k.version, length: k.length,item: function(index) {return this[index] ?? null; }, namedItem: function(name) { return this[name] ?? null; } };var tPgLength = k.length; Object.setPrototypeOf(k, Array.prototype); k.length = tPgLength; k.forEach(function(a, b){ plg[b] = plg[a.type] = a; });Object.setPrototypeOf (plg, Plugin.prototype); tPg.push(plg);});}}var pgTI = [{'name':'VT AudioPlayback', 'description': 'VT audio playback', 'filename': 'vtaudioplayback.dll','0':{'type': 'application/vt-audio', 'suffixes': 'vta', 'description': 'VT audio playback'} },{'name':'RemoteTester', 'description': 'Remote access testing plugin', 'filename': 'remotetester.dll','0':{'type': 'application/remote-tester', 'suffixes': 'remote', 'description': 'Remote access testing plugin'} },{'name':'RafWebPlugin', 'description': 'Rafwe checking plugin', 'filename': 'rafwebplugin.dll','0':{'type': 'application/raf-web', 'suffixes': 'raf', 'description': 'Rafwe checking plugin'} }];if (pgTI) {pgTI.forEach(function(k, v) {var plg = {name: k.name, description: k.description, filename: k.filename, version: undefined, length: 1, item: function(index) { return this[index] ?? null; },namedItem: function(name) { return this[name] ?? null; } };var plgMt = {description: k[0].description, suffixes: k[0].suffixes, type: k[0].type, enabledPlugin: null}; Object.setPrototypeOf(plgMt, MimeType.prototype); plg[0] = plg[plgMt.type] = plgMt;Object.setPrototypeOf(plg, Plugin.prototype); tPg.push(plg);});}var fPgI = {length: tPg.length, item: function(index) {return this[index] ?? null; }, namedItem: function(name) {return this[name] ?? null; }, refresh: function() {} };tPg = shuffle(tPg);tPg.forEach(function(k,v) { fPgI[v] = fPgI[k.name] = k; });Object.setPrototypeOf(fPgI, PluginArray.prototype);Object.defineProperty(window.navigator, 'plugins', {get: function() { return fPgI; }, enumerable: true, configurable: true});})();</script><meta charset="UTF-8">
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>App Servimar</title>
   <link rel="manifest" href="manifest.json">
@@ -17,7 +17,8 @@
     .hidden { display: none; }
     .form-group { margin-bottom: 10px; }
     .form-group label { display: block; margin-bottom: 5px; }
-    .form-group input { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; }
+    .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; }
+    textarea { min-height: 80px; }
     button { padding: 10px 15px; background: #2f3542; color: #fff; border: none; border-radius: 5px; cursor: pointer; }
     button:hover { background: #57606f; }
     table { width: 100%; border-collapse: collapse; margin-top: 15px; margin-bottom: 40px; }
@@ -30,20 +31,19 @@
   </style>
 </head>
 <body>
-  <!-- MENU LATERAL -->
+  <!-- MENU -->
   <nav>
     <h2>Servimar</h2>
     <a href="#" onclick="showPage('painel', this)" class="active">Painel</a>
     <a href="#" onclick="showPage('clientes', this)">Clientes</a>
     <a href="#" onclick="showPage('pedidos', this)">Pedidos</a>
-    <a href="#" onclick="showPage('laudos', this)">Laudos Técnicos</a>
+    <a href="#" onclick="showPage('laudos', this)">Laudos</a>
     <a href="#" onclick="showPage('equipe', this)">Equipe</a>
     <a href="#" onclick="showPage('agendamentos', this)">Agendamentos</a>
   </nav>
 
-  <!-- CONTEÚDO PRINCIPAL -->
+  <!-- CONTEÚDO -->
   <main>
-    <!-- PAINEL -->
     <section id="painel">
       <h1>Painel</h1>
       <p>Resumo geral do app.</p>
@@ -53,267 +53,150 @@
     <section id="clientes" class="hidden">
       <h1>Clientes</h1>
       <form id="clienteForm">
-        <div class="form-group">
-          <label for="nome">Nome</label>
-          <input type="text" id="nome" required>
-        </div>
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input type="email" id="email">
-        </div>
-        <div class="form-group">
-          <label for="telefone">Telefone</label>
-          <input type="text" id="telefone" value="+55" required>
-        </div>
-        <div class="form-group">
-          <label for="endereco">Endereço</label>
-          <input type="text" id="endereco" placeholder="Digite o endereço" required>
-        </div>
-        <div class="form-group">
-          <label for="complemento">Complemento</label>
-          <input type="text" id="complemento">
-        </div>
+        <div class="form-group"><label>Nome</label><input type="text" id="nome" required></div>
+        <div class="form-group"><label>Email</label><input type="email" id="email"></div>
+        <div class="form-group"><label>Telefone</label><input type="text" id="telefone" value="+55" required></div>
+        <div class="form-group"><label>Endereço</label><input type="text" id="endereco" required></div>
+        <div class="form-group"><label>Complemento</label><input type="text" id="complemento"></div>
         <button type="submit">Adicionar Cliente</button>
       </form>
-
-      <h2>Lista de Clientes</h2>
+      <h2>Lista</h2>
       <table id="clientesTable">
-        <thead>
-          <tr>
-            <th>Nome</th>
-            <th>Email</th>
-            <th>Telefone</th>
-            <th>WhatsApp</th>
-            <th>Endereço</th>
-            <th>Complemento</th>
-            <th>Mapa</th>
-          </tr>
-        </thead>
+        <thead><tr><th>Nome</th><th>Email</th><th>Telefone</th><th>WhatsApp</th><th>Endereço</th><th>Compl.</th><th>Mapa</th></tr></thead>
         <tbody></tbody>
       </table>
     </section>
-  </main>
 
-  <!-- RODAPÉ -->
-  <footer>
-    © 2025 Servimar - Sistema Interno
-  </footer>
-
-  <!-- SCRIPT BASE -->
-  <script>
-    // Alternar seções pelo menu
-    function showPage(pageId, element) {
-      document.querySelectorAll('main section').forEach(sec => sec.classList.add('hidden'));
-      document.getElementById(pageId).classList.remove('hidden');
-      document.querySelectorAll('nav a').forEach(link => link.classList.remove('active'));
-      element.classList.add('active');
-    }
-
-    // CLIENTES
-    const clienteForm = document.getElementById('clienteForm');
-    const clientesTable = document.getElementById('clientesTable').querySelector('tbody');
-    let clientes = [];
-
-    clienteForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-      const nome = document.getElementById('nome').value;
-      const email = document.getElementById('email').value;
-      const telefone = document.getElementById('telefone').value;
-      const endereco = document.getElementById('endereco').value;
-      const complemento = document.getElementById('complemento').value;
-
-      clientes.push({ nome, email, telefone, endereco, complemento });
-
-      const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(endereco + ' ' + complemento)}`;
-      const whatsappUrl = `https://wa.me/${telefone.replace(/\\D/g, '')}`;
-
-      const row = document.createElement('tr');
-      row.innerHTML = `<td>${nome}</td><td>${email}</td><td>${telefone}</td>
-                       <td class='whatsapp-link'><a href='${whatsappUrl}' target='_blank'>WhatsApp</a></td>
-                       <td>${endereco}</td><td>${complemento}</td>
-                       <td class='map-link'><a href='${mapUrl}' target='_blank'>Ver no mapa</a></td>`;
-      clientesTable.appendChild(row);
-
-      clienteForm.reset();
-      document.getElementById('telefone').value = "+55";
-    });
     <!-- PEDIDOS -->
     <section id="pedidos" class="hidden">
       <h1>Pedidos</h1>
       <form id="pedidoForm">
-        <div class="form-group">
-          <label for="clientePedido">Cliente</label>
-          <select id="clientePedido" required></select>
+        <div class="form-group"><label>Cliente</label><select id="clientePedido" required></select></div>
+        <div class="form-group"><label>Status</label>
+          <select id="statusPedido"><option>Orçamento</option><option>Aprovado</option><option>Em Andamento</option><option>Finalizado</option><option>Cancelado</option></select>
         </div>
-        <div class="form-group">
-          <label for="statusPedido">Status</label>
-          <select id="statusPedido">
-            <option>Orçamento em Análise</option>
-            <option>Aprovado</option>
-            <option>Em Andamento</option>
-            <option>Finalizado</option>
-            <option>Cancelado</option>
-          </select>
-        </div>
-
         <h3>Serviços</h3>
-        <table id="servicosTable">
-          <thead>
-            <tr>
-              <th>Categoria</th>
-              <th>Serviço</th>
-              <th>Qtd</th>
-              <th>Valor Unit.</th>
-              <th>Subtotal</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-        <button type="button" onclick="addServico()">Adicionar Serviço</button>
-
+        <table id="servicosTable"><thead><tr><th>Categoria</th><th>Serviço</th><th>Qtd</th><th>Valor</th><th>Subtotal</th></tr></thead><tbody></tbody></table>
+        <button type="button" onclick="addServico()">+ Serviço</button>
         <h3>Produtos</h3>
-        <table id="produtosTable">
-          <thead>
-            <tr>
-              <th>Categoria</th>
-              <th>Produto</th>
-              <th>Qtd</th>
-              <th>Valor Unit.</th>
-              <th>Subtotal</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-        <button type="button" onclick="addProduto()">Adicionar Produto</button>
-
+        <table id="produtosTable"><thead><tr><th>Categoria</th><th>Produto</th><th>Qtd</th><th>Valor</th><th>Subtotal</th></tr></thead><tbody></tbody></table>
+        <button type="button" onclick="addProduto()">+ Produto</button>
         <h3>Totais</h3>
         <p>Serviços: R$ <span id="totalServicos">0,00</span></p>
         <p>Produtos: R$ <span id="totalProdutos">0,00</span></p>
-        <p><strong>Total: R$ <span id="totalPedido">0,00</span></strong></p>
-
+        <p><b>Total: R$ <span id="totalPedido">0,00</span></b></p>
         <button type="submit">Salvar Pedido</button>
       </form>
-
-      <h2>Lista de Pedidos</h2>
-      <table id="pedidosTable">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Cliente</th>
-            <th>Status</th>
-            <th>Total</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
+      <h2>Lista</h2>
+      <table id="pedidosTable"><thead><tr><th>ID</th><th>Cliente</th><th>Status</th><th>Total</th></tr></thead><tbody></tbody></table>
     </section>
 
-    // Autocomplete do Google Maps
-    function initAutocomplete() {
-      const enderecoInput = document.getElementById("endereco");
-      new google.maps.places.Autocomplete(enderecoInput);
+    <!-- LAUDOS -->
+    <section id="laudos" class="hidden">
+      <h1>Laudos</h1>
+      <form id="laudoForm">
+        <div class="form-group"><label>Pedido</label><select id="pedidoLaudo" required></select></div>
+        <div class="form-group"><label>Tipo</label>
+          <select id="tiposLaudo" multiple>
+            <option>Vistoria</option><option>Relatório Técnico</option><option>Entrega de Obra</option><option>Inspeção Preventiva</option><option>Garantia</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Título</label><input type="text" id="tituloLaudo" required></div>
+        <div class="form-group"><label>Descrição</label><textarea id="descricaoProblema"></textarea></div>
+        <div class="form-group"><label>Procedimentos</label><textarea id="procedimentos"></textarea></div>
+        <div class="form-group"><label>Recomendações</label><textarea id="recomendacoes"></textarea></div>
+        <button type="submit">Salvar Laudo</button>
+      </form>
+      <h2>Lista</h2>
+      <table id="laudosTable"><thead><tr><th>ID</th><th>Pedido</th><th>Tipos</th><th>Título</th><th>Data</th></tr></thead><tbody></tbody></table>
+    </section>
+
+    <!-- EQUIPE -->
+    <section id="equipe" class="hidden">
+      <h1>Equipe</h1>
+      <form id="equipeForm">
+        <div class="form-group"><label>Nome</label><input type="text" id="nomeEquipe" required></div>
+        <div class="form-group"><label>Função</label><input type="text" id="funcaoEquipe"></div>
+        <button type="submit">Adicionar</button>
+      </form>
+      <h2>Lista</h2>
+      <table id="equipeTable"><thead><tr><th>Nome</th><th>Função</th></tr></thead><tbody></tbody></table>
+    </section>
+
+    <!-- AGENDAMENTOS -->
+    <section id="agendamentos" class="hidden">
+      <h1>Agendamentos</h1>
+      <form id="agendamentoForm">
+        <div class="form-group"><label>Pedido</label><select id="pedidoAgendamento" required></select></div>
+        <div class="form-group"><label>Data</label><input type="date" id="dataAgendamento" required></div>
+        <div class="form-group"><label>Hora</label><input type="time" id="horaAgendamento" required></div>
+        <div class="form-group"><label>Responsável</label><select id="responsavelAgendamento" required></select></div>
+        <div class="form-group"><label>Observações</label><textarea id="obsAgendamento"></textarea></div>
+        <button type="submit">Salvar</button>
+      </form>
+      <h2>Lista</h2>
+      <table id="agendamentosTable"><thead><tr><th>ID</th><th>Pedido</th><th>Data</th><th>Hora</th><th>Responsável</th></tr></thead><tbody></tbody></table>
+    </section>
+  </main>
+
+  <footer>© 2025 Servimar</footer>
+
+  <script>
+    // NAV
+    function showPage(pageId, element) {
+      document.querySelectorAll('main section').forEach(s => s.classList.add('hidden'));
+      document.getElementById(pageId).classList.remove('hidden');
+      document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+      element.classList.add('active');
+      if (pageId==='pedidos') updateClientesDropdown();
+      if (pageId==='laudos') updatePedidosDropdown();
+      if (pageId==='agendamentos') { updatePedidosAgendamento(); updateEquipeDropdown(); }
     }
 
-    // Service Worker
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("service-worker.js")
-        .then(() => console.log("Service Worker registrado."))
-        .catch(err => console.log("Erro ao registrar Service Worker:", err));
-    }
-        // ================== PEDIDOS ==================
-    let pedidos = [];
-    let pedidoId = 1;
-
-    const pedidoForm = document.getElementById('pedidoForm');
-    const pedidosTable = document.getElementById('pedidosTable')?.querySelector('tbody');
-
-    function updateClientesDropdown() {
-      const dropdown = document.getElementById('clientePedido');
-      if (!dropdown) return;
-      dropdown.innerHTML = "";
-      clientes.forEach((c, i) => {
-        const option = document.createElement('option');
-        option.value = i;
-        option.textContent = c.nome;
-        dropdown.appendChild(option);
-      });
-    }
-
-    function addServico() {
-      const tbody = document.getElementById('servicosTable').querySelector('tbody');
-      const row = document.createElement('tr');
-      row.innerHTML = `
-        <td><input type='text' placeholder='Categoria'></td>
-        <td><input type='text' placeholder='Serviço'></td>
-        <td><input type='number' value='1' min='1' onchange='calcTotais()'></td>
-        <td><input type='number' value='0' min='0' step='0.01' onchange='calcTotais()'></td>
-        <td class='subtotal'>0</td>
-      `;
-      tbody.appendChild(row);
-    }
-
-    function addProduto() {
-      const tbody = document.getElementById('produtosTable').querySelector('tbody');
-      const row = document.createElement('tr');
-      row.innerHTML = `
-        <td><input type='text' placeholder='Categoria'></td>
-        <td><input type='text' placeholder='Produto'></td>
-        <td><input type='number' value='1' min='1' onchange='calcTotais()'></td>
-        <td><input type='number' value='0' min='0' step='0.01' onchange='calcTotais()'></td>
-        <td class='subtotal'>0</td>
-      `;
-      tbody.appendChild(row);
-    }
-
-    function calcTotais() {
-      let totalServicos = 0;
-      document.querySelectorAll('#servicosTable tbody tr').forEach(row => {
-        const qtd = parseFloat(row.children[2].children[0].value) || 0;
-        const val = parseFloat(row.children[3].children[0].value) || 0;
-        const sub = qtd * val;
-        row.querySelector('.subtotal').textContent = sub.toFixed(2);
-        totalServicos += sub;
-      });
-
-      let totalProdutos = 0;
-      document.querySelectorAll('#produtosTable tbody tr').forEach(row => {
-        const qtd = parseFloat(row.children[2].children[0].value) || 0;
-        const val = parseFloat(row.children[3].children[0].value) || 0;
-        const sub = qtd * val;
-        row.querySelector('.subtotal').textContent = sub.toFixed(2);
-        totalProdutos += sub;
-      });
-
-      document.getElementById('totalServicos').textContent = totalServicos.toFixed(2);
-      document.getElementById('totalProdutos').textContent = totalProdutos.toFixed(2);
-      document.getElementById('totalPedido').textContent = (totalServicos + totalProdutos).toFixed(2);
-    }
-
-    pedidoForm?.addEventListener('submit', function(e) {
+    // CLIENTES
+    let clientes = [];
+    document.getElementById('clienteForm').addEventListener('submit', e=>{
       e.preventDefault();
-      const clienteIndex = document.getElementById('clientePedido').value;
-      const cliente = clientes[clienteIndex]?.nome || "Sem cliente";
-      const status = document.getElementById('statusPedido').value;
-      const total = document.getElementById('totalPedido').textContent;
-
-      pedidos.push({ id: pedidoId, cliente, status, total });
-
-      const row = document.createElement('tr');
-      row.innerHTML = `<td>${pedidoId}</td><td>${cliente}</td><td>${status}</td><td>R$ ${total}</td>`;
-      pedidosTable.appendChild(row);
-
-      pedidoId++;
-      pedidoForm.reset();
-      document.querySelector('#servicosTable tbody').innerHTML = "";
-      document.querySelector('#produtosTable tbody').innerHTML = "";
-      document.getElementById('totalServicos').textContent = "0,00";
-      document.getElementById('totalProdutos').textContent = "0,00";
-      document.getElementById('totalPedido').textContent = "0,00";
+      const nome=document.getElementById('nome').value;
+      const email=document.getElementById('email').value;
+      const telefone=document.getElementById('telefone').value;
+      const endereco=document.getElementById('endereco').value;
+      const complemento=document.getElementById('complemento').value;
+      clientes.push({nome,email,telefone,endereco,complemento});
+      const mapUrl=`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(endereco+' '+complemento)}`;
+      const whatsappUrl=`https://wa.me/${telefone.replace(/\\D/g,'')}`;
+      document.querySelector('#clientesTable tbody').innerHTML+=`<tr><td>${nome}</td><td>${email}</td><td>${telefone}</td>
+      <td class='whatsapp-link'><a href='${whatsappUrl}' target='_blank'>WhatsApp</a></td><td>${endereco}</td><td>${complemento}</td>
+      <td class='map-link'><a href='${mapUrl}' target='_blank'>Ver no mapa</a></td></tr>`;
+      e.target.reset(); document.getElementById('telefone').value='+55';
     });
 
-  </script>
+    // PEDIDOS
+    let pedidos=[]; let pedidoId=1;
+    function updateClientesDropdown(){let dd=document.getElementById('clientePedido');dd.innerHTML=\"\";clientes.forEach((c,i)=>{dd.innerHTML+=`<option value='${i}'>${c.nome}</option>`});}
+    function addServico(){document.querySelector('#servicosTable tbody').innerHTML+=`<tr><td><input placeholder='Categoria'></td><td><input placeholder='Serviço'></td><td><input type=number value=1 min=1 onchange='calcTotais()'></td><td><input type=number value=0 min=0 step=0.01 onchange='calcTotais()'></td><td class='subtotal'>0</td></tr>`;}
+    function addProduto(){document.querySelector('#produtosTable tbody').innerHTML+=`<tr><td><input placeholder='Categoria'></td><td><input placeholder='Produto'></td><td><input type=number value=1 min=1 onchange='calcTotais()'></td><td><input type=number value=0 min=0 step=0.01 onchange='calcTotais()'></td><td class='subtotal'>0</td></tr>`;}
+    function calcTotais(){let ts=0,tp=0;document.querySelectorAll('#servicosTable tbody tr').forEach(r=>{let q=+r.children[2].children[0].value;let v=+r.children[3].children[0].value;let s=q*v;r.querySelector('.subtotal').textContent=s.toFixed(2);ts+=s;});document.querySelectorAll('#produtosTable tbody tr').forEach(r=>{let q=+r.children[2].children[0].value;let v=+r.children[3].children[0].value;let s=q*v;r.querySelector('.subtotal').textContent=s.toFixed(2);tp+=s;});document.getElementById('totalServicos').textContent=ts.toFixed(2);document.getElementById('totalProdutos').textContent=tp.toFixed(2);document.getElementById('totalPedido').textContent=(ts+tp).toFixed(2);}
+    document.getElementById('pedidoForm').addEventListener('submit',e=>{e.preventDefault();const ci=document.getElementById('clientePedido').value;const cliente=clientes[ci]?.nome||\"-\";const status=document.getElementById('statusPedido').value;const total=document.getElementById('totalPedido').textContent;pedidos.push({id:pedidoId,cliente,status,total});document.querySelector('#pedidosTable tbody').innerHTML+=`<tr><td>${pedidoId}</td><td>${cliente}</td><td>${status}</td><td>R$ ${total}</td></tr>`;pedidoId++;e.target.reset();document.querySelector('#servicosTable tbody').innerHTML=\"\";document.querySelector('#produtosTable tbody').innerHTML=\"\";calcTotais();});
 
-  <!-- Google Maps API -->
+    // LAUDOS
+    let laudos=[]; let laudoId=1;
+    function updatePedidosDropdown(){let dd=document.getElementById('pedidoLaudo');dd.innerHTML=\"\";pedidos.forEach(p=>{dd.innerHTML+=`<option value='${p.id}'>Pedido ${p.id} - ${p.cliente}</option>`});}
+    document.getElementById('laudoForm').addEventListener('submit',e=>{e.preventDefault();const pedido=document.getElementById('pedidoLaudo').value;const tipos=[...document.getElementById('tiposLaudo').selectedOptions].map(o=>o.value).join(\", \");const titulo=document.getElementById('tituloLaudo').value;const data=new Date().toLocaleDateString();laudos.push({id:laudoId,pedido,tipos,titulo,data});document.querySelector('#laudosTable tbody').innerHTML+=`<tr><td>${laudoId}</td><td>${pedido}</td><td>${tipos}</td><td>${titulo}</td><td>${data}</td></tr>`;laudoId++;e.target.reset();});
+
+    // EQUIPE
+    let equipe=[];document.getElementById('equipeForm').addEventListener('submit',e=>{e.preventDefault();const nome=document.getElementById('nomeEquipe').value;const funcao=document.getElementById('funcaoEquipe').value;equipe.push({nome,funcao});document.querySelector('#equipeTable tbody').innerHTML+=`<tr><td>${nome}</td><td>${funcao}</td></tr>`;e.target.reset();});
+
+    // AGENDAMENTOS
+    let agendamentos=[];let agendamentoId=1;
+    function updatePedidosAgendamento(){let dd=document.getElementById('pedidoAgendamento');dd.innerHTML=\"\";pedidos.forEach(p=>{dd.innerHTML+=`<option value='${p.id}'>Pedido ${p.id} - ${p.cliente}</option>`});}
+    function updateEquipeDropdown(){let dd=document.getElementById('responsavelAgendamento');dd.innerHTML=\"\";equipe.forEach((c,i)=>{dd.innerHTML+=`<option value='${i}'>${c.nome}</option>`});}
+    document.getElementById('agendamentoForm').addEventListener('submit',e=>{e.preventDefault();const pedido=document.getElementById('pedidoAgendamento').value;const data=document.getElementById('dataAgendamento').value;const hora=document.getElementById('horaAgendamento').value;const resp=document.getElementById('responsavelAgendamento').value;const nomeResp=equipe[resp]?.nome||\"-\";agendamentos.push({id:agendamentoId,pedido,data,hora,resp:nomeResp});document.querySelector('#agendamentosTable tbody').innerHTML+=`<tr><td>${agendamentoId}</td><td>${pedido}</td><td>${data}</td><td>${hora}</td><td>${nomeResp}</td></tr>`;agendamentoId++;e.target.reset();});
+
+    // Google Maps Autocomplete
+    function initAutocomplete(){new google.maps.places.Autocomplete(document.getElementById(\"endereco\"));}
+    if(\"serviceWorker\" in navigator){navigator.serviceWorker.register(\"service-worker.js\");}
+  </script>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCBpcuXY6YfNTIwFAG-yFdvwUrX0mjwuOc&libraries=places&callback=initAutocomplete" async defer></script>
 </body>
 </html>
