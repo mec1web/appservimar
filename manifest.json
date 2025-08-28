@@ -1,20 +1,20 @@
 {
-  name App Servimar,
-  short_name Servimar,
-  start_url ,
-  display standalone,
-  background_color #ffffff,
-  theme_color #2f3542,
-  icons [
+  "name": "App Servimar",
+  "short_name": "Servimar",
+  "start_url": "app.servimar.com.br",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2f3542",
+  "icons": [
     {
-      src iconsicon-192.png,
-      sizes 192x192,
-      type imagepng
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
     },
     {
-      src iconsicon-512.png,
-      sizes 512x512,
-      type imagepng
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
     }
   ]
 }
